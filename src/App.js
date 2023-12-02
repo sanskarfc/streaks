@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import "./App.css";
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+  RedirectToSignIn,
+} from "@clerk/clerk-react";
+ 
+if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+  throw "Missing Publishable Key"
+}
+ 
+const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+ 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <SignedIn>
+        <Welcome />
+      </SignedIn>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
+    </ClerkProvider>
   );
 }
-
+ 
+function Welcome() {
+  return <div>Hello you are signed in</div>;
+}
+ 
 export default App;
