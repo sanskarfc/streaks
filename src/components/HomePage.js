@@ -1,27 +1,45 @@
-// src/components/HomePage.js
+import React, {Button} from 'react';  
 
-import React from 'react';
-import './HomePage.css'; // Import the external stylesheet
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+  RedirectToSignIn,
+} from "@clerk/clerk-react"; 
 
-const HomePage = () => {
+if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+  throw "Missing Publishable Key"
+} 
+
+const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+
+function HomePage() { 
   return (
-    <div className="home-page">
-      <header className="header">
-        <div className="logo">
-          <img src="/streaks-logo.png" alt="Streaks Logo" />
-          <span>Streaks</span>
-        </div>
-        <button className="cta-button">Add new Streak</button>
-      </header>
-      <main className="main-content">
-        <h1 className="app-title">Welcome to Streaks</h1>
-        <p className="app-description">Track your daily streaks and build positive habits.</p>
-      </main>
-      <footer className="footer">
-        <p>made by sanskarfc with love</p>
-      </footer>
-    </div>
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <div>
+        <header>
+          <div>
+            <h1>welcome to streaks</h1>
+            <UserButton />
+          </div>
+        </header> 
+        <main>
+          <section>
+            <h2>what is streaks?</h2>
+            <p>
+              streaks is used to share your streaks with everyone
+              to keep you motivated and on track
+            </p>
+          </section>
+        </main>
+        <footer>
+          <p>&copy; 2023 streaks. made by sansu</p>
+        </footer> 
+      </div>
+    </ClerkProvider>
   );
-};
+} 
 
 export default HomePage;
