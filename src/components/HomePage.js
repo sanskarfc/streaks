@@ -8,6 +8,7 @@ import {
   useUser,
   RedirectToSignIn,
 } from "@clerk/clerk-react"; 
+import {Routes, Route, useNavigate} from 'react-router-dom';  
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw "Missing Publishable Key"
@@ -15,29 +16,33 @@ if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
 
 const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
-function HomePage() { 
+function HomePage() {  
   return (
     <ClerkProvider publishableKey={clerkPubKey}>
-      <div>
-        <header>
-          <div>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
+      <SignedIn>
+        <div>
+          <header>
             <h1>welcome to streaks</h1>
+            <h3>manage profile</h3>
             <UserButton />
-          </div>
-        </header> 
-        <main>
-          <section>
-            <h2>what is streaks?</h2>
-            <p>
-              streaks is used to share your streaks with everyone
-              to keep you motivated and on track
-            </p>
-          </section>
-        </main>
-        <footer>
-          <p>&copy; 2023 streaks. made by sansu</p>
-        </footer> 
-      </div>
+          </header> 
+          <main>
+            <section>
+              <h2>what is streaks?</h2>
+              <p>
+                streaks is used to share your streaks with everyone
+                to keep you motivated and on track
+              </p>
+            </section>
+          </main>
+          <footer>
+            <p>&copy; 2023 streaks. made by sansu</p>
+          </footer> 
+        </div>
+      </SignedIn>
     </ClerkProvider>
   );
 } 
