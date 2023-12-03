@@ -49,8 +49,11 @@ app.post('/add', async (req, res) => {
 
 app.get('/streaks', async (req, res) => {
   try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+    const userId = decoded.sub;
     console.log("sending streak data back to frontend :]");
-    const query = 'SELECT streak_id, streak_name, streak_day, user_id FROM streaks';
+    const query = `SELECT streak_id, streak_name, streak_day, user_id FROM streaks WHERE user_id = '${userId}'`;
     const rs = await client.execute(query);
     const streaksData = rs.rows;
     res.json(streaksData);
@@ -58,7 +61,7 @@ app.get('/streaks', async (req, res) => {
     console.error('Error fetching streaks data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}); 
+});
 
 app.get('/streaks/user/:userId', async (req, res) => {
   try {
