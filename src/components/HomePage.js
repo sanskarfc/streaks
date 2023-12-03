@@ -23,7 +23,7 @@ function HomePage() {
   const navigate = useNavigate();
   const { signedIn, user } = useUser();
   const [streaks, setStreaks] = useState([]);
-  const [shareableLink, setShareableLink] = useState(`https://streaks-backend-newer.onrender.com/user/${userId}/streaks`);
+  const [shareableLink, setShareableLink] = useState(`https://streaks-eosin.vercel.app/user/${userId}/streaks`);
 
   useEffect(() => {
     const fetchStreaks = async () => {
