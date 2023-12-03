@@ -26,7 +26,8 @@ function HomePage() {
   const navigate = useNavigate();
   const { signedIn, user } = useUser();
   const [streaks, setStreaks] = useState([]);
-  const [shareableLink, setShareableLink] = useState(`https://streaks-eosin.vercel.app/user/${userId}/streaks`);
+  const [linkView, setLinkView] = useState(false);
+  const [shareableLink, setShareableLink] = useState(``);
 
   useEffect(() => {
     const fetchStreaks = async () => {
@@ -58,7 +59,12 @@ function HomePage() {
       linkInput.select();
       document.execCommand('copy');
     }
-  };
+  }; 
+
+  cosnt linkView = () => {
+    setShareableLink(`https://streaks-eosin.vercel.app/user/${userId}/streaks`);
+    setLinkView(true);
+  }
 
   return (
     <div>
@@ -99,8 +105,13 @@ function HomePage() {
 
             <h2>your shareable link</h2>
             <div>
-              <input id="shareableLink" type="text" value={shareableLink} readOnly />
-              <button onClick={copyToClipboard}>Copy</button>
+              <button onClick={linkview}>wanna share your streaks?</button>
+              {linkView && (
+                <div>
+                  <input id="shareableLink" type="text" value={shareableLink} readOnly />
+                  <button onClick={copyToClipboard}>Copy</button>
+                </div>
+              )}
             </div>
 
             <hr />
