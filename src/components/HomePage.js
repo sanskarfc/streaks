@@ -18,7 +18,10 @@ if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
 
 const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
-function HomePage() {
+function HomePage() { 
+
+  const { getToken } = useAuth();
+
   const { userId } = useAuth();
   const navigate = useNavigate();
   const { signedIn, user } = useUser();
@@ -28,7 +31,13 @@ function HomePage() {
   useEffect(() => {
     const fetchStreaks = async () => {
       try {
-        const response = await fetch('https://streaks-backend-newer.onrender.com/streaks');
+        const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${await getToken()}`,
+          },
+        });
         if (response.ok) {
           const streaksData = await response.json();
           setStreaks(streaksData);
@@ -39,9 +48,8 @@ function HomePage() {
         console.error('Error fetching streaks data:', error);
       }
     };
-
     fetchStreaks();
-  }, [userId]);
+  }, []);
 
   const copyToClipboard = () => {
     const linkInput = document.getElementById('shareableLink');

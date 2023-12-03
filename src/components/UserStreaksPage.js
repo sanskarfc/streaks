@@ -21,7 +21,7 @@ function UserStreaksPage() {
     };
 
     fetchUserStreaks();
-  }, [user_id]);
+  }, []);
 
   return (
     <div>

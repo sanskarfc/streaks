@@ -12,12 +12,20 @@ import './EditStreaksPage.css'; // Import your CSS file for styles
 function EditStreaksPage() {
   const { userId } = useAuth();
   const { signedIn, user } = useUser();
-  const [streaks, setStreaks] = useState([]);
+  const [streaks, setStreaks] = useState([]); 
+
+  const { getToken } = useAuth();
 
   useEffect(() => {
     const fetchStreaks = async () => {
       try {
-        const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks/user/${userId}`);
+        const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${await getToken()}`,
+          },
+        });
         if (response.ok) {
           const streaksData = await response.json();
           setStreaks(streaksData);
@@ -28,9 +36,8 @@ function EditStreaksPage() {
         console.error('Error fetching streaks data:', error);
       }
     };
-
     fetchStreaks();
-  }, [userId]);
+  }, []);
 
   const handleIncrement = (streakId) => {
     setStreaks((prevStreaks) => {
@@ -50,14 +57,17 @@ function EditStreaksPage() {
           : streak
       );
     });
-  };
+  }; 
 
-  const handleSave = async () => {
+  const { getToken } = useAuth(); 
+
+  const handleSave = async () => { 
     try {
       const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          "Authorization": `Bearer ${await getToken()}`,
         },
         body: JSON.stringify({ userId, streaks }),
       });
