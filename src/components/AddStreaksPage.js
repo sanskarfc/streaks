@@ -1,41 +1,53 @@
 import React, { useState } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 
 function AddStreaksPage() {
-  const [streakValue, setStreakValue] = useState(''); 
+  const [streakName, setStreakName] = useState(''); 
   const [streakDays, setStreakDays] = useState('');
 
 
-  const handleInputChange = (e) => {
-    setStreakValue(e.target.value);
-  }; 
+  const handleNameChange = (e) => {
+    setStreakName(e.target.value);
+  };  
 
-  const handleAddStreak = () => {
+  const handleDayChange = (e) => {
+    setStreakDays(e.target.value);
+  } 
+
+  const { getToken } = useAuth();
+
+  const handleAddStreak = () => { 
+
     const data = {
-      streakValue: streakValue,
+      streakName: streakName,
       streakDays: streakDays,
-    };
+    }; 
 
-    fetch('http://localhost:3000/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+    async function addStreak() { 
+      fetch('http://localhost:3000/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${await getToken()}`,
+        },
+        body: JSON.stringify(data),
       })
-      .then(responseData => {
-        console.log('Success:', responseData);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(responseData => {
+          console.log('Success:', responseData);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    } 
 
-    setStreakValue('');
+    addStreak();
+    setStreakName('');
     setStreakDays('');
   };
 
@@ -45,11 +57,11 @@ function AddStreaksPage() {
         <label> 
           <div>
             Name of Streak:
-            <input type="text" value={streakValue} onChange={handleInputChange} />   
+            <input type="text" value={streakName} onChange={handleNameChange} />   
           </div> 
           <div> 
             How many days since this streak?
-            <input type="text" value={streakDays} onChange={handleInputChange} />
+            <input type="text" value={streakDays} onChange={handleDayChange} />
           </div>
         </label>
       </div>
