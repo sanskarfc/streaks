@@ -59,7 +59,6 @@ function EditStreaksPage() {
     });
   }; 
 
-  const { getToken } = useAuth(); 
 
   const handleSave = async () => { 
     try {
