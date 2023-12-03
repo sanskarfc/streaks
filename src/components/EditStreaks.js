@@ -17,7 +17,7 @@ function EditStreaksPage() {
   useEffect(() => {
     const fetchStreaks = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/streaks/user/${userId}`);
+        const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks/user/${userId}`);
         if (response.ok) {
           const streaksData = await response.json();
           setStreaks(streaksData);
@@ -54,7 +54,7 @@ function EditStreaksPage() {
 
   const handleSave = async () => {
     try {
-      const response = await fetch('http://localhost:3000/streaks', {
+      const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

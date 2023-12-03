@@ -24,7 +24,8 @@ function AddStreaksPage() {
     }; 
 
     async function addStreak() { 
-      fetch('http://localhost:3000/add', {
+      
+      fetch('https://streaks-backend-newer.onrender.com/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

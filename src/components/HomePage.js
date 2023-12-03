@@ -23,12 +23,12 @@ function HomePage() {
   const navigate = useNavigate();
   const { signedIn, user } = useUser();
   const [streaks, setStreaks] = useState([]);
-  const [shareableLink, setShareableLink] = useState(`http://streaks.com/user/${userId}/streaks`);
+  const [shareableLink, setShareableLink] = useState(`https://streaks-backend-newer.onrender.com/user/${userId}/streaks`);
 
   useEffect(() => {
     const fetchStreaks = async () => {
       try {
-        const response = await fetch('http://localhost:3000/streaks');
+        const response = await fetch('https://streaks-backend-newer.onrender.com/streaks');
         if (response.ok) {
           const streaksData = await response.json();
           setStreaks(streaksData);
