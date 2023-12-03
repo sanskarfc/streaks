@@ -52,6 +52,7 @@ app.get('/streaks', async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
     const userId = decoded.sub;
+    console.log("userId --> ", userId);
     console.log("sending streak data back to frontend :]");
     const query = `SELECT streak_id, streak_name, streak_day, user_id FROM streaks WHERE user_id = '${userId}'`;
     const rs = await client.execute(query);
