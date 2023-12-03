@@ -61,10 +61,10 @@ function HomePage() {
     }
   }; 
 
-  cosnt linkView = () => {
+  const setTheLink = () => {
     setShareableLink(`https://streaks-eosin.vercel.app/user/${userId}/streaks`);
     setLinkView(true);
-  }
+  };
 
   return (
     <div>
@@ -105,7 +105,7 @@ function HomePage() {
 
             <h2>your shareable link</h2>
             <div>
-              <button onClick={linkview}>wanna share your streaks?</button>
+              <button onClick={setTheLink}>wanna share your streaks?</button>
               {linkView && (
                 <div>
                   <input id="shareableLink" type="text" value={shareableLink} readOnly />
