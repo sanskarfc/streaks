@@ -3,6 +3,7 @@ const { createClient } = require('@libsql/client');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +24,7 @@ Nh4t7Ien+2CJJO0GaDm0L54N7GCCgjjzBoPrwJbMKk3xYlRRo9mzoCtDSwjHGQO0
 -----END PUBLIC KEY-----`;
 
 app.use(express.json()); 
+app.use(cors());
 
 app.post('/add', async (req, res) => {
   try {
