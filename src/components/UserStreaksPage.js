@@ -8,7 +8,9 @@ function UserStreaksPage() {
   useEffect(() => {
     const fetchUserStreaks = async () => {
       try {
-        const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks/user/${user_id}`);
+        const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks/user/${user_id}`, {
+          mode: 'cors',
+        });
         if (response.ok) {
           const streaksData = await response.json();
           setStreaks(streaksData);

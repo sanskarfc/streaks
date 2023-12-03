@@ -25,6 +25,7 @@ function EditStreaksPage() {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${await getToken()}`,
           },
+          mode: 'cors',
         });
         if (response.ok) {
           const streaksData = await response.json();
@@ -68,6 +69,7 @@ function EditStreaksPage() {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${await getToken()}`,
         },
+        mode: 'cors',
         body: JSON.stringify({ userId, streaks }),
       });
 

@@ -37,6 +37,7 @@ function HomePage() {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${await getToken()}`,
           },
+          mode: 'cors',
         });
         if (response.ok) {
           const streaksData = await response.json();

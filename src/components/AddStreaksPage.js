@@ -31,6 +31,7 @@ function AddStreaksPage() {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${await getToken()}`,
         },
+        mode: 'cors',
         body: JSON.stringify(data),
       })
         .then(response => {
