@@ -1,0 +1,45 @@
+header {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header h3 {
+  margin-top: 5px;
+  color: #555;
+}
+
+main {
+  padding: 20px;
+}
+
+.streak-list {
+  list-style: none;
+  padding: 0;
+}
+
+.streak-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.streak-buttons button {
+  margin-left: 5px;
+}
+
+hr {
+  margin-top: 20px;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+}

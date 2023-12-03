@@ -58,7 +58,38 @@ app.get('/streaks', async (req, res) => {
     console.error('Error fetching streaks data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+}); 
+
+app.get('/streaks/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const query = `SELECT streak_id, streak_name, streak_day, user_id FROM streaks WHERE user_id = '${userId}'`;
+    const rs = await client.execute(query);
+    const userStreaksData = rs.rows;
+
+    res.json(userStreaksData);
+  } catch (error) {
+    console.error('Error fetching user streaks data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
+app.post('/streaks', async (req, res) => {
+  try {
+    const { userId, streaks } = req.body;
+    if (!userId || !streaks || !Array.isArray(streaks)) {
+      return res.status(400).json({ error: 'Invalid request body' });
+    }
+    const updateQueries = streaks.map(({ streak_id, streak_day }) => {
+      return `UPDATE streaks SET streak_day = ${streak_day} WHERE streak_id = '${streak_id}' AND user_id = '${userId}'`;
+    });
+    await Promise.all(updateQueries.map((query) => client.execute(query)));
+    res.json({ success: true, message: 'Streaks updated successfully' });
+  } catch (error) {
+    console.error('Error updating streaks:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}); 
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

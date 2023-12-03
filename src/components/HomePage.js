@@ -6,6 +6,7 @@ import {
   UserButton,
   useUser,
   RedirectToSignIn,
+  useAuth,
 } from "@clerk/clerk-react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
@@ -18,11 +19,11 @@ if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
 const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 function HomePage() {
+  const { userId } = useAuth();
   const navigate = useNavigate();
-  const { signedIn } = useUser();
-
-  // State to store streaks data
+  const { signedIn, user } = useUser();
   const [streaks, setStreaks] = useState([]);
+  const [shareableLink, setShareableLink] = useState(`http://streaks.com/user/${userId}/streaks`);
 
   useEffect(() => {
     const fetchStreaks = async () => {
@@ -40,7 +41,15 @@ function HomePage() {
     };
 
     fetchStreaks();
-  }, []); 
+  }, [userId]);
+
+  const copyToClipboard = () => {
+    const linkInput = document.getElementById('shareableLink');
+    if (linkInput) {
+      linkInput.select();
+      document.execCommand('copy');
+    }
+  };
 
   return (
     <div>
@@ -50,22 +59,24 @@ function HomePage() {
       <SignedIn>
         <div>
           <header>
-            <h1>Welcome to Streaks</h1>
-            <h3>Manage Profile</h3>
+            <h1>welcome to streaks</h1>
+            <h3>manage profile</h3>
             <UserButton />
           </header>
           <main>
             <section>
-              <h2>What is Streaks?</h2>
+              <h2>what is streaks?</h2>
               <p>
-                Streaks is used to share your streaks with everyone
+                streaks is used to share your streaks with everyone
                 to keep you motivated and on track.
               </p>
             </section>
 
+            <hr />
+
             {/* Display streaks as cards */}
+            <h2>your streaks</h2>
             <section className="streak-cards-container">
-              <h2>Your Streaks</h2>
               {streaks.map((streak) => (
                 <div key={streak.streak_id} className="streak-card">
                   <h3>{streak.streak_name}</h3>
@@ -74,9 +85,20 @@ function HomePage() {
                 </div>
               ))}
             </section>
+
+            <hr />
+
+            <h2>your shareable link</h2>
+            <div>
+              <input id="shareableLink" type="text" value={shareableLink} readOnly />
+              <button onClick={copyToClipboard}>Copy</button>
+            </div>
+
+            <hr />
+
           </main>
           <footer>
-            <p>&copy; 2023 Streaks. Made by Sansu</p>
+            <p>&copy; 2023 streaks. made by sansu</p>
           </footer>
         </div>
       </SignedIn>
