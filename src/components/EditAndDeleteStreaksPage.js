@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import { useAuth } from "@clerk/clerk-react";
+import './EditAndDeleteStreaksPage.css'; // Import your CSS file
 
 function EditAndDeleteStreaksPage() { 
   const { getToken } = useAuth();
@@ -89,11 +91,11 @@ function EditAndDeleteStreaksPage() {
   };
 
   return (
-    <div>
+    <div className="edit-delete-container">
       <h1>Edit and Delete Streaks</h1>
-      <ul>
+      <ul className="streak-list">
         {allStreaks.map((streak) => (
-          <li key={streak.streak_id}>
+          <li key={streak.streak_id} className="streak-item">
             {selectedStreak === streak ? (
               <>
                 <label>
@@ -104,13 +106,13 @@ function EditAndDeleteStreaksPage() {
                     onChange={(e) => setEditedStreakName(e.target.value)}
                   />
                 </label>
-                <button onClick={handleEdit}>Save Changes</button>
+                <Button variant="success" onClick={handleEdit}>Save Changes</Button>
               </>
             ) : (
               <>
                 <span>{streak.streak_name}</span>
-                <button onClick={() => setSelectedStreak(streak)}>Edit</button>
-                <button onClick={() => handleDelete(streak.streak_id)}>Delete</button>
+                <Button variant="warning" onClick={() => setSelectedStreak(streak)}>Edit</Button>
+                <Button variant="danger" onClick={() => handleDelete(streak.streak_id)}>Delete</Button>
               </>
             )}
           </li>

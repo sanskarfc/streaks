@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import {
   ClerkProvider,
   SignedIn,
@@ -87,7 +88,7 @@ function EditStreaksPage() {
     <div>
       <header>
         <h1>edit your streaks</h1>
-        <h3>manage your streaks</h3>
+        <h4>use this page to change the days for your streaks</h4>
         <UserButton />
       </header>
       <main>
@@ -98,8 +99,8 @@ function EditStreaksPage() {
               <li key={streak.streak_id} className="streak-item">
                 <span>{`${streak.streak_name} - ${streak.streak_day} days`}</span>
                 <div className="streak-buttons">
-                  <button onClick={() => handleIncrement(streak.streak_id)}>+</button>
-                  <button onClick={() => handleDecrement(streak.streak_id)}>-</button>
+                  <Button onClick={() => handleIncrement(streak.streak_id)}>+</Button>
+                  <Button onClick={() => handleDecrement(streak.streak_id)}>-</Button>
                 </div>
               </li>
             ))}
@@ -108,7 +109,7 @@ function EditStreaksPage() {
 
         <hr />
 
-        <button onClick={handleSave}>Save</button>
+        <Button variant="success" onClick={handleSave}>Save</Button>
       </main>
       <footer>
         <p>&copy; 2023 streaks. made by sansu</p>

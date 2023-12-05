@@ -1,0 +1,28 @@
+.edit-delete-container {
+  margin: 20px;
+}
+
+.streak-list {
+  list-style: none;
+  padding: 0;
+}
+
+.streak-item {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+span {
+  margin-right: 10px;
+}

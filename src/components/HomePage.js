@@ -1,3 +1,4 @@
+import Button from 'react-bootstrap/Button';
 import React, { useEffect, useState } from 'react';
 import {
   ClerkProvider,
@@ -105,11 +106,11 @@ function HomePage() {
 
             <h2>your shareable link</h2>
             <div>
-              <button onClick={setTheLink}>wanna share your streaks?</button>
+              <Button variant="secondary" onClick={setTheLink}>wanna share your streaks?</Button>
               {linkView && (
                 <div>
                   <input id="shareableLink" type="text" value={shareableLink} readOnly />
-                  <button onClick={copyToClipboard}>Copy</button>
+                  <Button onClick={copyToClipboard}>Copy</Button>
                 </div>
               )}
             </div>

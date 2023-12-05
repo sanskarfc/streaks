@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import { useAuth } from '@clerk/clerk-react';
+import './AddStreaksPage.css'; // Import your CSS file
 
 function AddStreaksPage() {
   const [streakName, setStreakName] = useState('');
@@ -50,21 +52,21 @@ function AddStreaksPage() {
   };
 
   return (
-    <div>
-      <div>
+    <div className="add-streaks-container">
+      <div className="input-section">
         <label>
-          <div>
-            Name of Streak:
+          <div className="input-group">
+            <span>Name of Streak:</span>
             <input type="text" value={streakName} onChange={handleNameChange} />
           </div>
-          <div>
-            How many days since this streak?
+          <div className="input-group">
+            <span>How many days since this streak?</span>
             <input type="text" value={streakDays} onChange={handleDayChange} />
           </div>
         </label>
       </div>
-      <div>
-        <button onClick={handleAddStreak}>Add Streak</button>
+      <div className="button-section">
+        <Button onClick={handleAddStreak}>Add Streak</Button>
       </div>
     </div>
   );
