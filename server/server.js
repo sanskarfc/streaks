@@ -68,11 +68,12 @@ app.get('/streaks', async (req, res) => {
 
 app.get('/streaks/user/:userId', async (req, res) => {
   try {
+    console.log("inside the request handler!");
     const userId = req.params.userId;
     const query = `SELECT streak_id, streak_name, streak_day, user_id FROM streaks WHERE user_id = '${userId}'`;
     const rs = await client.execute(query);
     const userStreaksData = rs.rows;
-
+    console.log(userStreaksData);
     res.json(userStreaksData);
   } catch (error) {
     console.error('Error fetching user streaks data:', error);
@@ -95,7 +96,38 @@ app.post('/streaks', async (req, res) => {
     console.error('Error updating streaks:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}); 
+});  
+
+// Edit streak route
+app.put('/streaks/:streakId', async (req, res) => {
+  try {
+    const { streakName } = req.body;
+    const streakId = req.params.streakId;
+
+    const query = `UPDATE streaks SET streak_name = '${streakName}' WHERE streak_id = '${streakId}'`;
+    await client.execute(query);
+
+    res.json({ success: true, message: 'Streak name updated successfully' });
+  } catch (error) {
+    console.error('Error updating streak name:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Delete streak route
+app.delete('/streaks/:streakId', async (req, res) => {
+  try {
+    const streakId = req.params.streakId;
+
+    const query = `DELETE FROM streaks WHERE streak_id = '${streakId}'`;
+    await client.execute(query);
+
+    res.json({ success: true, message: 'Streak deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting streak:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

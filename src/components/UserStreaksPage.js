@@ -33,7 +33,6 @@ function UserStreaksPage() {
           <div key={streak.streak_id} className="streak-card">
             <h3>{streak.streak_name}</h3>
             <p>Days: {streak.streak_day}</p>
-            {/* Add more details as needed */}
           </div>
         ))}
       </section>

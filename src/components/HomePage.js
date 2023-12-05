@@ -32,7 +32,7 @@ function HomePage() {
   useEffect(() => {
     const fetchStreaks = async () => {
       try {
-        const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
+        const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,8 @@ function HomePage() {
   }; 
 
   const setTheLink = () => {
-    setShareableLink(`https://streaks-eosin.vercel.app/user/${userId}/streaks`);
+    const apiUrl = 'https://streaks-eosin.vercel.app';
+    setShareableLink(`${apiUrl}/streaks/user/${userId}`);
     setLinkView(true);
   };
 
@@ -96,7 +97,6 @@ function HomePage() {
                 <div key={streak.streak_id} className="streak-card">
                   <h3>{streak.streak_name}</h3>
                   <p>Days: {streak.streak_day}</p>
-                  {/* Add more details as needed */}
                 </div>
               ))}
             </section>

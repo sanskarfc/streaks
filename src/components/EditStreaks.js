@@ -7,7 +7,7 @@ import {
   useAuth,
 } from "@clerk/clerk-react";
 
-import './EditStreaksPage.css'; // Import your CSS file for styles
+import './EditStreaksPage.css'; 
 
 function EditStreaksPage() {
   const { userId } = useAuth();
@@ -19,7 +19,7 @@ function EditStreaksPage() {
   useEffect(() => {
     const fetchStreaks = async () => {
       try {
-        const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
+        const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ function EditStreaksPage() {
 
   const handleSave = async () => { 
     try {
-      const response = await fetch('https://streaks-backend-newer.onrender.com/streaks', {
+      const response = await fetch(`https://streaks-backend-newer.onrender.com/streaks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
