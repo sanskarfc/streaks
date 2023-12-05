@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import { useAuth } from "@clerk/clerk-react";
 import './EditAndDeleteStreaksPage.css'; // Import your CSS file
 
@@ -9,6 +10,8 @@ function EditAndDeleteStreaksPage() {
   const [allStreaks, setAllStreaks] = useState([]);
   const [selectedStreak, setSelectedStreak] = useState(null);
   const [editedStreakName, setEditedStreakName] = useState('');
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAllStreaks = async () => {
@@ -58,11 +61,17 @@ function EditAndDeleteStreaksPage() {
           // Clear selected streak and edited name
           setSelectedStreak(null);
           setEditedStreakName('');
+          setSuccess('Streak name updated successfully!');
+          setError(null);
         } else {
           console.error('Failed to update streak name');
+          setSuccess(null);
+          setError('Failed to update streak name. Please try again.');
         }
       } catch (error) {
         console.error('Error updating streak name:', error);
+        setSuccess(null);
+        setError('An unexpected error occurred. Please try again later.');
       }
     }
   };
@@ -82,37 +91,45 @@ function EditAndDeleteStreaksPage() {
         // Clear selected streak and edited name
         setSelectedStreak(null);
         setEditedStreakName('');
+        setSuccess('Streak deleted successfully!');
+        setError(null);
       } else {
         console.error('Failed to delete streak');
+        setSuccess(null);
+        setError('Failed to delete streak. Please try again.');
       }
     } catch (error) {
       console.error('Error deleting streak:', error);
+      setSuccess(null);
+      setError('An unexpected error occurred. Please try again later.');
     }
   };
 
   return (
     <div className="edit-delete-container">
-      <h1>Edit and Delete Streaks</h1>
+      {success && <Alert variant="success">{success}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
+      <h1>edit and delete streaks</h1>
       <ul className="streak-list">
         {allStreaks.map((streak) => (
           <li key={streak.streak_id} className="streak-item">
             {selectedStreak === streak ? (
               <>
                 <label>
-                  Streak Name:
+                  streak name:
                   <input
                     type="text"
                     value={editedStreakName}
                     onChange={(e) => setEditedStreakName(e.target.value)}
                   />
                 </label>
-                <Button variant="success" onClick={handleEdit}>Save Changes</Button>
+                <Button variant="success" onClick={handleEdit}>save changes</Button>
               </>
             ) : (
               <>
                 <span>{streak.streak_name}</span>
-                <Button variant="warning" onClick={() => setSelectedStreak(streak)}>Edit</Button>
-                <Button variant="danger" onClick={() => handleDelete(streak.streak_id)}>Delete</Button>
+                <Button variant="warning" onClick={() => setSelectedStreak(streak)}>edit</Button>
+                <Button variant="danger" onClick={() => handleDelete(streak.streak_id)}>delete</Button>
               </>
             )}
           </li>
