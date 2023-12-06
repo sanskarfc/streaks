@@ -58,7 +58,7 @@ app.get('/streaks', async (req, res) => {
     const userId = decoded.sub;
     console.log("userId --> ", userId);
     console.log("sending streak data back to frontend :]");
-    const query = `SELECT streak_id, streak_name, streak_day, user_id FROM streaks WHERE user_id = '${userId}'`;
+    const query = `SELECT streak_id, streak_name, streak_day, user_id, private FROM streaks WHERE user_id = '${userId}'`;
     const rs = await client.execute(query);
     const streaksData = rs.rows;
     res.json(streaksData);

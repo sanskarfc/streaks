@@ -65,7 +65,6 @@ function EditAndDeleteStreaksPage() {
                 : streak
             )
           );
-          // Clear selected streak and edited name
           setSelectedStreak(null);
           setEditedStreakName('');
           setEditedIsPrivate(false);

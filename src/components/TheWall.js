@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from "@clerk/clerk-react";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+
+function StreakProgressBar({ days }) {
+  const maxDays = 100; 
+  const percentage = (days / maxDays) * 100;
+
+  return (
+    <ProgressBar now={percentage} label={`${days} days`} />
+  );
+}
 
 function TheWall() {
   const { getToken } = useAuth();
@@ -43,7 +53,7 @@ function TheWall() {
           <ListGroup variant="flush">
             {userStreaks.map((streak) => (
               <ListGroup.Item key={streak.streak_id}>
-                {streak.streak_name} - {streak.streak_day} days
+                {streak.streak_name} - <StreakProgressBar days={streak.streak_day} />
               </ListGroup.Item>
             ))}
           </ListGroup>

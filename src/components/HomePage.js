@@ -10,8 +10,9 @@ import {
   useAuth,
 } from "@clerk/clerk-react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
-import './HomePage.css'; // Import your CSS file for styles
+import './HomePage.css';
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw "Missing Publishable Key";
@@ -87,16 +88,20 @@ function HomePage() {
                 streaks is used to share your streaks with everyone
                 to keep you motivated and on track.
               </p>
+              <p>
+                100 days streak means there is no coming back!
+              </p>
             </section>
 
             <hr />
 
             <h2>your streaks</h2>
-            <section className="streak-cards-container">
+            <section className="streak-progress-container">
               {streaks.map((streak) => (
-                <div key={streak.streak_id} className="streak-card">
+                <div key={streak.streak_id} className="streak-progress">
                   <h3>{streak.streak_name}</h3>
                   <p>Days: {streak.streak_day}</p>
+                  <ProgressBar now={streak.streak_day} max={100} label={`${streak.streak_day}%`} />
                 </div>
               ))}
             </section>

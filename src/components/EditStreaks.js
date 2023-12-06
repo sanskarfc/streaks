@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import {
   ClerkProvider,
   SignedIn,
@@ -101,13 +102,21 @@ function EditStreaksPage() {
           <h2>edit your streak days</h2>
           <ul className="streak-list">
             {streaks.map((streak) => (
-              <li key={streak.streak_id} className="streak-item">
-                <span>{`${streak.streak_name} - ${streak.streak_day} days`}</span>
-                <div className="streak-buttons">
-                  <Button onClick={() => handleIncrement(streak.streak_id)}>+</Button>
-                  <Button onClick={() => handleDecrement(streak.streak_id)}>-</Button>
+              <div>
+                <div className="streak-card">
+                  <span>{`${streak.streak_name} - ${streak.streak_day} days`}</span>
+                  <div className="streak-buttons">
+                    <Button onClick={() => handleIncrement(streak.streak_id)}>+</Button>
+                    <Button onClick={() => handleDecrement(streak.streak_id)}>-</Button>
+                  </div>
                 </div>
-              </li>
+                <ProgressBar
+                  now={streak.streak_day}
+                  max={100}
+                  label={`${streak.streak_day}%`}
+                  className="streak-progress-bar"
+                />
+              </div>
             ))}
           </ul>
         </section>
