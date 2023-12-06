@@ -4,7 +4,8 @@ import AddStreaksPage from "./components/AddStreaksPage.js";
 import HomePage from "./components/HomePage.js";
 import EditStreaks from "./components/EditStreaks.js";
 import UserStreaksPage from "./components/UserStreaksPage.js";
-import EditAndDeleteStreaksPage from "./components/EditAndDeleteStreaksPage.js";
+import EditAndDeleteStreaksPage from "./components/EditAndDeleteStreaksPage.js"; 
+import TheWall from "./components/TheWall.js";
 import Button from 'react-bootstrap/Button';
 
 function App() {
@@ -24,7 +25,11 @@ function App() {
 
   const navigateToDeleteStreaks = () => {
     navigate("/change");
-  };
+  }; 
+
+  const navigateToTheWall = () => {
+    navigate("/wall");
+  }
 
   return (
     <div>
@@ -33,6 +38,7 @@ function App() {
         <Button variant="outline-primary" onClick={navigateToAddStreaks}>add</Button>
         <Button variant="outline-primary" onClick={navigateToEditStreaks}>edit days</Button>
         <Button variant="outline-primary" onClick={navigateToDeleteStreaks}>edit streak</Button>
+        <Button variant="outline-primary" onClick={navigateToTheWall}>the wall</Button>
       </header>
       <hr />
       <Routes>
@@ -40,6 +46,7 @@ function App() {
         <Route exact path="/add" element={<AddStreaksPage />} />
         <Route exact path="/edit" element={<EditStreaks />} />
         <Route exact path="/change" element={<EditAndDeleteStreaksPage />} />
+        <Route exact path="/wall" element={<TheWall />} />
         <Route path="/streaks/user/:user_id/" element={<UserStreaksPage />} />
       </Routes>
     </div>

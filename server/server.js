@@ -11,7 +11,9 @@ const port = process.env.PORT || 3000;
 const client = createClient({
   url: process.env.DATABASE_URL,
   authToken: process.env.DATABASE_AUTH_TOKEN,
-}); 
+});  
+
+const { clerkClient } = require('@clerk/clerk-sdk-node');
 
 const publicKey = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwnNhpl/IoxX+Z98easVt
@@ -28,7 +30,7 @@ app.use(cors());
 
 app.post('/add', async (req, res) => {
   try {
-    const { streakName, streakDays } = req.body;
+    const { streakName, streakDays, isPrivate } = req.body;
     console.log("added streak --> ", req.body);
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
@@ -37,7 +39,7 @@ app.post('/add', async (req, res) => {
       return res.status(400).json({ error: 'Both streakName and streakDays are required' });
     }
     const streakId = uuidv4();
-    const query = `INSERT INTO streaks (streak_id, streak_name, streak_day, user_id) VALUES ('${streakId}', '${streakName}', '${streakDays}', '${userId}')`;
+    const query = `INSERT INTO streaks (streak_id, streak_name, streak_day, user_id, private) VALUES ('${streakId}', '${streakName}', '${streakDays}', '${userId}', ${isPrivate})`;
     const rs = await client.execute(query);
     res.json({ success: true, message: 'Streak inserted successfully' }); 
   } catch (error) {
@@ -47,7 +49,7 @@ app.post('/add', async (req, res) => {
     }
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}); 
+});
 
 app.get('/streaks', async (req, res) => {
   try {
@@ -62,6 +64,31 @@ app.get('/streaks', async (req, res) => {
     res.json(streaksData);
   } catch (error) {
     console.error('Error fetching streaks data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}); 
+
+app.get('/wall/streaks', async (req, res) => {
+  try {
+    const query = `SELECT user_id, streak_id, streak_name, streak_day FROM streaks WHERE private = false`;
+    const rs = await client.execute(query);
+    const streaksData = rs.rows;
+    const wallData = {};
+    console.log("streaksData --> ", streaksData);
+    for (const streak of streaksData) {
+      const user = await clerkClient.users.getUser(streak.user_id);
+      const userData = {
+        first_name: user.firstName,
+        last_name: user.lastName,
+      };
+      if (!wallData[streak.user_id]) {
+        wallData[streak.user_id] = [];
+      }
+      wallData[streak.user_id].push({ ...streak, user: userData });
+    }
+    res.json(Object.values(wallData));
+  } catch (error) {
+    console.error('Error fetching public wall data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -98,23 +125,24 @@ app.post('/streaks', async (req, res) => {
   }
 });  
 
-// Edit streak route
 app.put('/streaks/:streakId', async (req, res) => {
   try {
-    const { streakName } = req.body;
+    const { streakName, isPrivate } = req.body;
     const streakId = req.params.streakId;
-
-    const query = `UPDATE streaks SET streak_name = '${streakName}' WHERE streak_id = '${streakId}'`;
+    let query;
+    if (isPrivate !== undefined) {
+      query = `UPDATE streaks SET streak_name = '${streakName}', private = ${isPrivate} WHERE streak_id = '${streakId}'`;
+    } else {
+      query = `UPDATE streaks SET streak_name = '${streakName}' WHERE streak_id = '${streakId}'`;
+    }
     await client.execute(query);
-
-    res.json({ success: true, message: 'Streak name updated successfully' });
+    res.json({ success: true, message: 'Streak name and privacy updated successfully' });
   } catch (error) {
-    console.error('Error updating streak name:', error);
+    console.error('Error updating streak name and privacy:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-});
+}); 
 
-// Delete streak route
 app.delete('/streaks/:streakId', async (req, res) => {
   try {
     const streakId = req.params.streakId;

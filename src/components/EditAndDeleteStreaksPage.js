@@ -4,12 +4,13 @@ import Alert from 'react-bootstrap/Alert';
 import { useAuth } from "@clerk/clerk-react";
 import './EditAndDeleteStreaksPage.css'; // Import your CSS file
 
-function EditAndDeleteStreaksPage() { 
+function EditAndDeleteStreaksPage() {
   const { getToken } = useAuth();
 
   const [allStreaks, setAllStreaks] = useState([]);
   const [selectedStreak, setSelectedStreak] = useState(null);
   const [editedStreakName, setEditedStreakName] = useState('');
+  const [editedIsPrivate, setEditedIsPrivate] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
@@ -38,6 +39,13 @@ function EditAndDeleteStreaksPage() {
     fetchAllStreaks();
   }, []);
 
+  useEffect(() => {
+    if (selectedStreak) {
+      setEditedStreakName(selectedStreak.streak_name);
+      setEditedIsPrivate(selectedStreak.private || false);
+    }
+  }, [selectedStreak]);
+
   const handleEdit = async () => {
     if (selectedStreak) {
       try {
@@ -46,30 +54,30 @@ function EditAndDeleteStreaksPage() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ streakName: editedStreakName }),
+          body: JSON.stringify({ streakName: editedStreakName, isPrivate: editedIsPrivate }),
         });
         if (response.ok) {
-          console.log('Streak name updated successfully');
-          // Update the local state after successful edit
+          console.log('Streak name and privacy updated successfully');
           setAllStreaks((prevStreaks) =>
             prevStreaks.map((streak) =>
               streak.streak_id === selectedStreak.streak_id
-                ? { ...streak, streak_name: editedStreakName }
+                ? { ...streak, streak_name: editedStreakName, private: editedIsPrivate }
                 : streak
             )
           );
           // Clear selected streak and edited name
           setSelectedStreak(null);
           setEditedStreakName('');
-          setSuccess('Streak name updated successfully!');
+          setEditedIsPrivate(false);
+          setSuccess('Streak name and privacy updated successfully!');
           setError(null);
         } else {
-          console.error('Failed to update streak name');
+          console.error('Failed to update streak name and privacy');
           setSuccess(null);
-          setError('Failed to update streak name. Please try again.');
+          setError('Failed to update streak name and privacy. Please try again.');
         }
       } catch (error) {
-        console.error('Error updating streak name:', error);
+        console.error('Error updating streak name and privacy:', error);
         setSuccess(null);
         setError('An unexpected error occurred. Please try again later.');
       }
@@ -91,6 +99,7 @@ function EditAndDeleteStreaksPage() {
         // Clear selected streak and edited name
         setSelectedStreak(null);
         setEditedStreakName('');
+        setEditedIsPrivate(false);
         setSuccess('Streak deleted successfully!');
         setError(null);
       } else {
@@ -105,6 +114,10 @@ function EditAndDeleteStreaksPage() {
     }
   };
 
+  const handleTogglePrivacy = () => {
+    setEditedIsPrivate((prevIsPrivate) => !prevIsPrivate);
+  };
+
   return (
     <div className="edit-delete-container">
       {success && <Alert variant="success">{success}</Alert>}
@@ -116,20 +129,29 @@ function EditAndDeleteStreaksPage() {
             {selectedStreak === streak ? (
               <>
                 <label>
-                  streak name:
+                  Streak name:
                   <input
                     type="text"
                     value={editedStreakName}
                     onChange={(e) => setEditedStreakName(e.target.value)}
                   />
                 </label>
-                <Button variant="success" onClick={handleEdit}>save changes</Button>
+                <label>
+                  Private:
+                  <input
+                    type="checkbox"
+                    checked={editedIsPrivate}
+                    onChange={handleTogglePrivacy}
+                  />
+                </label>
+                <Button variant="success" onClick={handleEdit}>Save changes</Button>
               </>
             ) : (
               <>
                 <span>{streak.streak_name}</span>
-                <Button variant="warning" onClick={() => setSelectedStreak(streak)}>edit</Button>
-                <Button variant="danger" onClick={() => handleDelete(streak.streak_id)}>delete</Button>
+                <span>{streak.private ? ' (Private)' : ' (Public)'}</span>
+                <Button variant="warning" onClick={() => setSelectedStreak(streak)}>Edit</Button>
+                <Button variant="danger" onClick={() => handleDelete(streak.streak_id)}>Delete</Button>
               </>
             )}
           </li>

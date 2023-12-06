@@ -7,6 +7,7 @@ import { useAuth } from '@clerk/clerk-react';
 function AddStreaksPage() {
   const [streakName, setStreakName] = useState('');
   const [streakDays, setStreakDays] = useState('');
+  const [isPrivate, setIsPrivate] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -18,12 +19,17 @@ function AddStreaksPage() {
     setStreakDays(e.target.value);
   };
 
+  const handleCheckboxChange = (e) => {
+    setIsPrivate(e.target.checked);
+  };
+
   const { getToken } = useAuth();
 
   const handleAddStreak = async () => {
     const data = {
       streakName: streakName,
       streakDays: streakDays,
+      isPrivate: isPrivate,
     };
 
     try {
@@ -53,6 +59,7 @@ function AddStreaksPage() {
 
     setStreakName('');
     setStreakDays('');
+    setIsPrivate(false);
   };
 
   return (
@@ -61,17 +68,21 @@ function AddStreaksPage() {
       {success && <Alert variant="success">{success}</Alert>}
       <Form>
         <Form.Group controlId="streakName">
-          <Form.Label>name of streak</Form.Label>
-          <Form.Control type="text" value={streakName} onChange={handleNameChange} placeholder="enter streak name" />
+          <Form.Label>Name of streak</Form.Label>
+          <Form.Control type="text" value={streakName} onChange={handleNameChange} placeholder="Enter streak name" />
         </Form.Group>
 
         <Form.Group controlId="streakDays">
-          <Form.Label>how many days since this streak?</Form.Label>
-          <Form.Control type="text" value={streakDays} onChange={handleDayChange} placeholder="enter streak days" />
+          <Form.Label>How many days since this streak?</Form.Label>
+          <Form.Control type="text" value={streakDays} onChange={handleDayChange} placeholder="Enter streak days" />
+        </Form.Group>
+
+        <Form.Group controlId="isPrivate">
+          <Form.Check type="checkbox" label="Keep streak private" checked={isPrivate} onChange={handleCheckboxChange} />
         </Form.Group>
 
         <Button variant="primary" onClick={handleAddStreak}>
-          add streak
+          Add Streak
         </Button>
       </Form>
     </div>

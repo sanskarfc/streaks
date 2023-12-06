@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@clerk/clerk-react": "^4.28.1",
+    "@clerk/clerk-sdk-node": "^4.12.23",
     "@cred/neopop-web": "^1.0.0",
     "@libsql/client": "^0.4.0-pre.5",
     "@testing-library/jest-dom": "^5.17.0",

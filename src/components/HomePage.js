@@ -91,7 +91,6 @@ function HomePage() {
 
             <hr />
 
-            {/* Display streaks as cards */}
             <h2>your streaks</h2>
             <section className="streak-cards-container">
               {streaks.map((streak) => (
