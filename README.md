@@ -1,6 +1,8 @@
 # Streaks
 
-![Streaks Logo]([link_to_logo_image](https://github.com/sanskarfc/streaks/assets/72058551/fa9874dc-683b-4306-9867-ad64d2f80a38))
+![Streaks](https://github.com/sanskarfc/streaks/assets/72058551/dc55cd6f-7705-4b05-be34-318b61a941ae)
+
+
 
 Streaks is a powerful and intuitive web application designed to help you build and maintain positive habits by tracking your daily streaks. Whether you're striving to exercise regularly, read more books, or practice mindfulness, Streaks provides a simple yet effective way to visualize your progress and stay motivated.
 
