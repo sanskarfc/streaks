@@ -57,10 +57,6 @@ Visit `http://localhost:3000` in your browser to use Streaks locally.
 
 Contributions are welcome! If you have ideas for new features, encounter bugs, or want to contribute in any way, please submit an issue or create a pull request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Contact
 
 For any inquiries or feedback, feel free to reach out to [sanskarfc@gmail.com](mailto:sanskarfc@gmail.com).
