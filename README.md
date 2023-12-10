@@ -28,7 +28,7 @@ If you prefer to run Streaks locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/streaks.git
+   git clone https://github.com/sanskarfc/streaks.git
    ```
 
 2. Install dependencies:
