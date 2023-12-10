@@ -10,15 +10,13 @@ Streaks is a powerful and intuitive web application designed to help you build a
 
 - **Intuitive Interface**: Streaks offers a clean and user-friendly interface, making it easy for you to create and track your habits effortlessly.
 
-- **Customizable Habits**: Tailor your habits to your specific goals with customizable parameters, such as frequency, duration, or any other criteria that matter to you.
+- **Customizable Habits**: Tailor your habits to your specific goals.
 
 - **Visual Progress Tracking**: Track your daily progress with visually appealing streaks that motivate and inspire you to stay consistent.
 
-- **Reminders and Notifications**: Set up reminders and receive notifications to help you stay on track and build a routine that lasts.
+- **The Wall**: Gain valuable insights into how everyone else uses streaks, empowering you to make informed decisions about your goals.
 
-- **Insights and Analytics**: Gain valuable insights into your habits and identify patterns with detailed analytics, empowering you to make informed decisions about your goals.
-
-- **Secure and Private**: Your data is important. Streaks prioritizes security and privacy to ensure your information is safe and confidential.
+- **Secure and Private**: Your data is important. Streaks prioritizes security and privacy to ensure your information is safe and confidential. If you wish to share your data on the wall for everyone to see, you can mark your streaks to be public.
 
 ## Getting Started
 
